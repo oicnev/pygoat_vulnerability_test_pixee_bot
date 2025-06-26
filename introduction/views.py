@@ -34,11 +34,11 @@ import base64
 from io import BytesIO
 from argon2 import PasswordHasher
 import logging
-import requests
 import re
 import secrets
 import defusedxml.pulldom
 import defusedxml.sax
+from security import safe_requests
 
 #*****************************************Login and Registration****************************************************#
 
@@ -952,7 +952,7 @@ def ssrf_lab2(request):
     elif request.method == "POST":
         url = request.POST["url"]
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
         except:
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "Invalid URL"})
